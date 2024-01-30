@@ -1,9 +1,38 @@
 <script setup lang="ts">
-import HeaderComponent from "./components/HeaderComponent.vue"
+import { ref, watch } from "vue"
+
+const header = ref<any>()
+const isLogged = ref(false)
+
+const onHome = () => {
+  console.log("Return to home")
+}
+
+const changeAuthState = (authState: boolean) => {
+  console.log("Change auth state to:", authState)
+  isLogged.value = authState
+}
+
+const onLogin = () => {
+  console.log("On logged!")
+}
+
+const onLeave = () => {
+  console.log("On leaved...")
+}
+
+watch(isLogged, (nowValue, oldValue) => {
+  if (nowValue == oldValue) return;
+  if (!header.value.setIsLogger!) return;
+
+  header.value.setIsLogger(nowValue)
+})
+
 </script>
 
 <template>
-  <HeaderComponent />
+  <header-component ref="header" @on-home="onHome" @change-auth-state="changeAuthState" @on-login="onLogin" @on-leave="onLeave"
+    :isLogged="isLogged" />
 </template>
 
 <style>

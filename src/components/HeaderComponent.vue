@@ -1,28 +1,53 @@
 <script setup lang="ts">
+import { ref } from "vue";
 import { useTitleStore } from "@/stores/app"
 
+const emit = defineEmits({
+  onHome: () => true,
+  onLogin: () => true,
+  onLeave: () => true,
+  changeAuthState(changeAuthState: boolean) {
+    return typeof changeAuthState == "boolean"
+  }
+});
+
 const { title } = useTitleStore()
+const props = defineProps({
+  isLogged: Boolean
+})
+const isLogged = ref(props.isLogged)
 
 const onLogin = () => {
-  //TODO: Criar lógica de login
-  console.log("Click: on login")
+  if (!isLogged.value) {
+    emit("changeAuthState", true)
+    emit("onLogin")
+  } else {
+    emit("changeAuthState", false)
+    emit("onLeave")
+  }
 }
 
-const onHome = () => {
-  //TODO: Criar lógica de retornar a tela inicial
-  console.log("Click: on home")
+const setIsLogger = (value: boolean) => {
+  isLogged.value = value
 }
+
+defineExpose({
+  setIsLogger
+})
 
 </script>
 
 <template>
   <header>
     <div class="header-left">
-      <img class="logo" @click="onHome" src="@/assets/logo.svg" />
-      <a class="title" @click="onHome">{{ title }}</a>
+      <div class="header-left-child" @click="$emit('onHome')">
+        <img class="logo" src="@/assets/logo.svg" />
+        <a class="title">{{ title }}</a>
+      </div>
     </div>
     <div class="header-right">
-      <button class="login-button" @click="onLogin">Entrar</button>
+      <button v-if="!isLogged" class="login-button" @click="onLogin">Entrar</button>
+      <button v-else class="login-button" @click="onLogin">Sair</button>
     </div>
   </header>
 </template>
@@ -38,6 +63,11 @@ header {
 }
 
 .header-left {
+  display: flex;
+  align-items: center;
+}
+
+.header-left-child {
   display: flex;
   align-items: center;
 }
