@@ -1,38 +1,41 @@
 <script setup lang="ts">
-import { ref, watch } from "vue"
+import { useAuthStore } from "@/stores/auth";
 
-const header = ref<any>()
-const isLogged = ref(false)
+import { reactive } from "vue"
+
+const auth = useAuthStore()
+
+const headerModel = reactive({ isLoading: false })
 
 const onHome = () => {
   console.log("Return to home")
 }
 
-const changeAuthState = (authState: boolean) => {
-  console.log("Change auth state to:", authState)
-  isLogged.value = authState
-}
-
 const onLogin = () => {
-  console.log("On logged!")
+  console.log("Logging...")
+  headerModel.isLoading = true;
+  setTimeout(() => {
+    auth.isLogged = true;
+    headerModel.isLoading = false;
+    console.log("Logged!")
+  }, 1000)
 }
 
 const onLeave = () => {
-  console.log("On leaved...")
+  console.log("Leaving...")
+  headerModel.isLoading = true;
+  auth.isLogged = false;
+  setTimeout(() => {
+    auth.isLogged = false;
+    headerModel.isLoading = false;
+    console.log("Leaved!")
+  }, 1000)
 }
-
-watch(isLogged, (nowValue, oldValue) => {
-  if (nowValue == oldValue) return;
-  if (!header.value.setIsLogger!) return;
-
-  header.value.setIsLogger(nowValue)
-})
 
 </script>
 
 <template>
-  <header-component ref="header" @on-home="onHome" @change-auth-state="changeAuthState" @on-login="onLogin" @on-leave="onLeave"
-    :isLogged="isLogged" />
+  <header-component v-model="headerModel" @on-home="onHome" @on-login="onLogin" @on-leave="onLeave" />
 </template>
 
 <style>

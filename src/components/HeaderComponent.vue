@@ -1,40 +1,34 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { useAuthStore } from "@/stores/auth";
 import { useTitleStore } from "@/stores/app"
 
-const emit = defineEmits({
-  onHome: () => true,
-  onLogin: () => true,
-  onLeave: () => true,
-  changeAuthState(changeAuthState: boolean) {
-    return typeof changeAuthState == "boolean"
-  }
-});
+import { computed, reactive, ref } from "vue";
 
+const emit = defineEmits(["onHome", "onLogin", "onLeave"]);
+
+const model = defineModel({ default: { isLoading: false } })
+const auth = useAuthStore()
 const { title } = useTitleStore()
-const props = defineProps({
-  isLogged: Boolean
-})
-const isLogged = ref(props.isLogged)
 
-const onLogin = () => {
-  if (!isLogged.value) {
-    emit("changeAuthState", true)
-    emit("onLogin")
-  } else {
-    emit("changeAuthState", false)
-    emit("onLeave")
-  }
+const loginButton = {
+  class: ["login-button"],
+  attrs: reactive({
+    disabled: model.value.isLoading
+  }),
+  value: computed(() => {
+    if (model.value.isLoading) return "Carregando..."
+    if (auth.isLogged) return "Sair"
+    return "Entrar"
+  }),
+  onClick: ref(() => {
+    if (model.value.isLoading) return;
+    if (auth.isLogged) {
+      emit("onLeave")
+    } else {
+      emit("onLogin")
+    }
+  })
 }
-
-const setIsLogger = (value: boolean) => {
-  isLogged.value = value
-}
-
-defineExpose({
-  setIsLogger
-})
-
 </script>
 
 <template>
@@ -46,8 +40,8 @@ defineExpose({
       </div>
     </div>
     <div class="header-right">
-      <button v-if="!isLogged" class="login-button" @click="onLogin">Entrar</button>
-      <button v-else class="login-button" @click="onLogin">Sair</button>
+      <button v-bind="loginButton.attrs" v-bind:class="loginButton.class" @click="loginButton.onClick.value"
+        v-html="loginButton.value.value"></button>
     </div>
   </header>
 </template>
