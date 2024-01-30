@@ -1,33 +1,32 @@
 <script setup lang="ts">
+import { computed, reactive } from "vue";
+
 import { useAuthStore } from "@/stores/auth";
 import { useTitleStore } from "@/stores/app"
 
-import { computed, reactive, ref } from "vue";
-
 const emit = defineEmits(["onHome", "onLogin", "onLeave"]);
-
-const model = defineModel({ default: { isLoading: false } })
-const auth = useAuthStore()
+const isLoading = defineModel("isLoading", { type: Boolean })
 const { title } = useTitleStore()
+const auth = useAuthStore()
 
 const loginButton = {
   class: ["login-button"],
   attrs: reactive({
-    disabled: model.value.isLoading
+    disabled: isLoading.value
   }),
   value: computed(() => {
-    if (model.value.isLoading) return "Carregando..."
+    if (isLoading.value) return "Carregando..."
     if (auth.isLogged) return "Sair"
     return "Entrar"
   }),
-  onClick: ref(() => {
-    if (model.value.isLoading) return;
+  onClick: () => {
+    if (isLoading.value) return;
     if (auth.isLogged) {
       emit("onLeave")
     } else {
       emit("onLogin")
     }
-  })
+  }
 }
 </script>
 
@@ -40,7 +39,7 @@ const loginButton = {
       </div>
     </div>
     <div class="header-right">
-      <button v-bind="loginButton.attrs" v-bind:class="loginButton.class" @click="loginButton.onClick.value"
+      <button v-bind="loginButton.attrs" v-bind:class="loginButton.class" @click="loginButton.onClick"
         v-html="loginButton.value.value"></button>
     </div>
   </header>

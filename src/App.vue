@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { useAuthStore } from "@/stores/auth";
+import { ref } from "vue"
 
-import { reactive } from "vue"
+import { useAuthStore } from "@/stores/auth";
 
 const auth = useAuthStore()
 
-const headerModel = reactive({ isLoading: false })
+const isLoading = ref(false)
 
 const onHome = () => {
   console.log("Return to home")
@@ -13,21 +13,21 @@ const onHome = () => {
 
 const onLogin = () => {
   console.log("Logging...")
-  headerModel.isLoading = true;
+  isLoading.value = true;
   setTimeout(() => {
     auth.isLogged = true;
-    headerModel.isLoading = false;
+    isLoading.value = false;
     console.log("Logged!")
   }, 1000)
 }
 
 const onLeave = () => {
   console.log("Leaving...")
-  headerModel.isLoading = true;
+  isLoading.value = true;
   auth.isLogged = false;
   setTimeout(() => {
     auth.isLogged = false;
-    headerModel.isLoading = false;
+    isLoading.value = false;
     console.log("Leaved!")
   }, 1000)
 }
@@ -35,7 +35,7 @@ const onLeave = () => {
 </script>
 
 <template>
-  <header-component v-model="headerModel" @on-home="onHome" @on-login="onLogin" @on-leave="onLeave" />
+  <header-component v-model:isLoading="isLoading" @on-home="onHome" @on-login="onLogin" @on-leave="onLeave" />
 </template>
 
 <style>
