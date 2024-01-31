@@ -1,31 +1,28 @@
 <script setup lang="ts">
-import { computed, reactive } from "vue";
+import { computed } from 'vue'
 
-import { useAuthStore } from "@/stores/auth";
-import { useTitleStore } from "@/stores/app"
+import { useAuthStore } from '@/stores/auth'
+import { useTitleStore } from '@/stores/app'
 
-const emit = defineEmits(["onHome", "onLogin", "onLeave"]);
-const isLoading = defineModel("isLoading", { type: Boolean })
+const emit = defineEmits(['onHome', 'onLogin', 'onLeave'])
+const isLoading = defineModel('isLoading', { type: Boolean })
 const { title } = useTitleStore()
 const auth = useAuthStore()
 
+//TODO: Criar botão com spinner em componente separado
 const loginButton = {
-  class: ["login-button"],
-  attrs: reactive({
-    disabled: isLoading.value
-  }),
   value: computed(() => {
-    if (isLoading.value) return "Carregando..."
-    if (auth.isLogged) return "Sair"
-    return "Entrar"
+    if (isLoading.value) return 'Carregando...'
+    if (!auth.isLogged) return 'Entrar'
+    return 'Sair'
   }),
   onClick: () => {
-    if (isLoading.value) return;
-    if (auth.isLogged) {
-      emit("onLeave")
-    } else {
-      emit("onLogin")
+    if (!auth.isLogged) {
+      emit('onLogin')
+      return
     }
+
+    emit('onLeave')
   }
 }
 </script>
@@ -39,8 +36,12 @@ const loginButton = {
       </div>
     </div>
     <div class="header-right">
-      <button v-bind="loginButton.attrs" v-bind:class="loginButton.class" @click="loginButton.onClick"
-        v-html="loginButton.value.value"></button>
+      <button
+        class="login-button"
+        :disable="isLoading"
+        @click="loginButton.onClick"
+        v-html="loginButton.value.value"
+      ></button>
     </div>
   </header>
 </template>
