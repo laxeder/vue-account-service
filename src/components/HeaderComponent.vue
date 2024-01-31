@@ -51,7 +51,7 @@ header {
   width: 100%;
   display: flex;
   align-items: center;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.7);
   margin-bottom: 20px;
 }
 
@@ -70,31 +70,29 @@ header {
 }
 
 .title {
-  font-size: 1.2rem;
-  color: #333;
-  text-decoration: none;
+  font-size: large;
+  font-weight: 700;
+  color: var(--color-heading);
   cursor: pointer;
-  font-weight: bold;
 }
 
 .login-button {
-  padding: 8px 15px;
-  background-color: #007bff;
+  padding: 8px 12px;
+  background-color: mediumseagreen;
   color: #fff;
   border: none;
   border-radius: 8px;
   cursor: pointer;
   transition: background-color 0.3s ease;
   font-weight: bold;
-  font-size: small;
+  font-size: medium;
 }
 
 .logo {
   width: 32px;
   height: 32px;
-  font-size: 1.2rem;
+  font-size: medium;
   margin-right: 10px;
   cursor: pointer;
 }
 </style>
-@/stores/app
