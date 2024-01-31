@@ -1,60 +1,70 @@
 <script setup lang="ts">
-import { ref } from "vue"
+import { ref } from 'vue'
 
-import { useAuthStore } from "@/stores/auth";
-import router from "./router";
+import { useAuthStore } from '@/stores/auth'
+import router from '@/router'
 
 const auth = useAuthStore()
 
 const isLoading = ref(false)
 
 const onHome = () => {
-  console.log("Return to home")
-  router.push("/")
+  router.push('/')
 }
 
 const onLogin = () => {
-  console.log("Logging...")
-  isLoading.value = true;
+  isLoading.value = true
+
   setTimeout(() => {
-    auth.isLogged = true;
-    router.push("/about")
-    isLoading.value = false;
-    console.log("Logged!")
+    auth.isLogged = true
+
+    const { href } = router.resolve({ name: 'users', params: { id: 'Carlos' } })
+
+    router.push(href)
+
+    isLoading.value = false
   }, 1000)
 }
 
 const onLeave = () => {
-  console.log("Leaving...")
-  isLoading.value = true;
-  auth.isLogged = false;
+  isLoading.value = true
+  auth.isLogged = false
+
   setTimeout(() => {
-    auth.isLogged = false;
-    router.push("/")
-    isLoading.value = false;
-    console.log("Leaved!")
+    auth.isLogged = false
+
+    router.push('/')
+
+    isLoading.value = false
   }, 1000)
 }
-
 </script>
 
 <template>
-  <header-component v-model:isLoading="isLoading" @on-home="onHome" @on-login="onLogin" @on-leave="onLeave" />
-  <main-component></main-component>
+  <header-component
+    v-model:isLoading="isLoading"
+    @on-home="onHome"
+    @on-login="onLogin"
+    @on-leave="onLeave"
+  />
+  <main-component> </main-component>
 </template>
 
 <style>
 #app {
-  padding: 0;
-  margin: 0;
+  display: flex;
+  flex-direction: column;
   width: 100%;
   height: 100%;
   max-width: 100%;
-  min-height: 100%
+  min-height: 100%;
+  margin: 0;
+  padding: 0;
 }
 
 body,
 html {
   width: 100%;
+  height: 100%;
 }
 </style>

@@ -9,13 +9,15 @@ const isLoading = defineModel('isLoading', { type: Boolean })
 const { title } = useTitleStore()
 const auth = useAuthStore()
 
+const loginButtonValue = computed(() => {
+  if (isLoading.value) return 'Carregando...'
+  if (!auth.isLogged) return 'Entrar'
+  return 'Sair'
+})
+
+//TODO Arrumar funçõe
 //TODO: Criar botão com spinner em componente separado
 const loginButton = {
-  value: computed(() => {
-    if (isLoading.value) return 'Carregando...'
-    if (!auth.isLogged) return 'Entrar'
-    return 'Sair'
-  }),
   onClick: () => {
     if (!auth.isLogged) {
       emit('onLogin')
@@ -40,7 +42,7 @@ const loginButton = {
         class="login-button"
         :disable="isLoading"
         @click="loginButton.onClick"
-        v-html="loginButton.value.value"
+        v-html="loginButtonValue"
       ></button>
     </div>
   </header>
@@ -52,7 +54,7 @@ header {
   width: 100%;
   display: flex;
   align-items: center;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.7);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
   margin-bottom: 20px;
 }
 
@@ -71,22 +73,22 @@ header {
 }
 
 .title {
-  font-size: large;
-  font-weight: 700;
+  font-size: 14px;
+  font-weight: 500;
   color: var(--color-heading);
   cursor: pointer;
 }
 
 .login-button {
   padding: 8px 12px;
-  background-color: mediumseagreen;
+  background-color: #252525;
+  box-shadow: 2px 4px 8px 2px rgba(0, 0, 0, 0.64);
   color: #fff;
   border: none;
   border-radius: 8px;
   cursor: pointer;
   transition: background-color 0.3s ease;
-  font-weight: bold;
-  font-size: medium;
+  font-size: 200;
 }
 
 .logo {
