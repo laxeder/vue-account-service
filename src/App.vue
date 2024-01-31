@@ -2,6 +2,7 @@
 import { ref } from "vue"
 
 import { useAuthStore } from "@/stores/auth";
+import router from "./router";
 
 const auth = useAuthStore()
 
@@ -9,6 +10,7 @@ const isLoading = ref(false)
 
 const onHome = () => {
   console.log("Return to home")
+  router.push("/")
 }
 
 const onLogin = () => {
@@ -16,6 +18,7 @@ const onLogin = () => {
   isLoading.value = true;
   setTimeout(() => {
     auth.isLogged = true;
+    router.push("/about")
     isLoading.value = false;
     console.log("Logged!")
   }, 1000)
@@ -27,6 +30,7 @@ const onLeave = () => {
   auth.isLogged = false;
   setTimeout(() => {
     auth.isLogged = false;
+    router.push("/")
     isLoading.value = false;
     console.log("Leaved!")
   }, 1000)
@@ -36,11 +40,11 @@ const onLeave = () => {
 
 <template>
   <header-component v-model:isLoading="isLoading" @on-home="onHome" @on-login="onLogin" @on-leave="onLeave" />
+  <main-component></main-component>
 </template>
 
 <style>
 #app {
-  display: flex;
   padding: 0;
   margin: 0;
   width: 100%;
@@ -51,8 +55,6 @@ const onLeave = () => {
 
 body,
 html {
-  align-items: flex-start;
-  background-color: #fff;
   width: 100%;
 }
 </style>
