@@ -1,18 +1,16 @@
 <script setup lang="ts">
-import router from '@/router/index'
+import { useUser } from '@/helpers/user'
 
 const { id } = defineProps(['id'])
 
-function onCreateUser() {
-  router.push({ name: 'user-create' })
-}
+const { createUser } = useUser()
 </script>
 
 <template>
   <header>
     <h1>Olá {{ id }}!</h1>
     <h1>Oque deseja fazer?</h1>
-    <button class="create-user-button" @click="onCreateUser">Criar usuário</button>
+    <button class="create-user-button" @click="createUser">Criar usuário</button>
   </header>
   <main>
     <div class="child">

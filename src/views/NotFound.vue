@@ -1,6 +1,6 @@
 <template>
   <main>
-    <h1>Página não encontrada {{ $route.params.pathMatch }}</h1>
+    <h1>Página não encontrada!</h1>
   </main>
 </template>
 

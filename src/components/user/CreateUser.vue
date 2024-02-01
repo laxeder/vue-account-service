@@ -2,7 +2,7 @@
 import router from '@/router'
 
 function onCreateUser() {
-  router.go(-1)
+  router.back()
 }
 </script>
 

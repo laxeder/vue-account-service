@@ -5,9 +5,13 @@ import { useAuthStore } from '@/stores/auth'
 import { useTitleStore } from '@/stores/app'
 
 const emit = defineEmits(['onHome', 'onLogin', 'onLeave'])
+
 const isLoading = defineModel('isLoading', { type: Boolean })
+
 const { title } = useTitleStore()
 const auth = useAuthStore()
+
+//TODO: Criar botão com spinner em componente separado
 
 const loginButtonValue = computed(() => {
   if (isLoading.value) return 'Carregando...'
@@ -15,15 +19,10 @@ const loginButtonValue = computed(() => {
   return 'Sair'
 })
 
-//TODO Arrumar funçõe
-//TODO: Criar botão com spinner em componente separado
-const loginButton = {
-  onClick: () => {
-    if (!auth.isAuthenticated) {
-      emit('onLogin')
-      return
-    }
-
+function onLogin() {
+  if (!auth.isAuthenticated) {
+    emit('onLogin')
+  } else {
     emit('onLeave')
   }
 }
@@ -41,7 +40,7 @@ const loginButton = {
       <button
         class="login-button"
         :disable="isLoading"
-        @click="loginButton.onClick"
+        @click="onLogin"
         v-html="loginButtonValue"
       ></button>
     </div>

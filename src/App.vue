@@ -8,11 +8,11 @@ const auth = useAuthStore()
 
 const isLoading = ref(false)
 
-const onHome = () => {
+function onHome() {
   router.push('/')
 }
 
-const onLogin = () => {
+function onLogin() {
   isLoading.value = true
 
   setTimeout(() => {
@@ -26,7 +26,7 @@ const onLogin = () => {
   }, 1000)
 }
 
-const onLeave = () => {
+function onLeave() {
   isLoading.value = true
   auth.isAuthenticated = false
 
