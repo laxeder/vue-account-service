@@ -6,7 +6,7 @@ const { params } = useRoute()
 const { id } = params
 
 function onCreateUser() {
-  router.push(`/users/${id}/create`)
+  router.push({ name: "user-create" })
 }
 </script>
 

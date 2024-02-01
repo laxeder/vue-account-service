@@ -19,6 +19,7 @@ router.addRoute({
   component: import('@/views/UserView.vue'),
   children: [{
     path: 'create',
+    name: "user-create",
     component: import('@/components/user/CreateUser.vue')
   }]
 })
