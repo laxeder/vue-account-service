@@ -13,7 +13,7 @@ router.beforeEach((to) => {
   const auth = useAuthStore()
 
   if (to.path.startsWith('/users')) {
-    if (!auth.isLogged) {
+    if (!auth.isAuthenticated) {
       return { name: 'home' }
     }
   }

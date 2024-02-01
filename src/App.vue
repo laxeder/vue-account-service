@@ -16,7 +16,7 @@ const onLogin = () => {
   isLoading.value = true
 
   setTimeout(() => {
-    auth.isLogged = true
+    auth.isAuthenticated = true
 
     const { href } = router.resolve({ name: 'users', params: { id: 'Carlos' } })
 
@@ -28,10 +28,10 @@ const onLogin = () => {
 
 const onLeave = () => {
   isLoading.value = true
-  auth.isLogged = false
+  auth.isAuthenticated = false
 
   setTimeout(() => {
-    auth.isLogged = false
+    auth.isAuthenticated = false
 
     router.push('/')
 

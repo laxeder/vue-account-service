@@ -11,7 +11,7 @@ const auth = useAuthStore()
 
 const loginButtonValue = computed(() => {
   if (isLoading.value) return 'Carregando...'
-  if (!auth.isLogged) return 'Entrar'
+  if (!auth.isAuthenticated) return 'Entrar'
   return 'Sair'
 })
 
@@ -19,7 +19,7 @@ const loginButtonValue = computed(() => {
 //TODO: Criar botão com spinner em componente separado
 const loginButton = {
   onClick: () => {
-    if (!auth.isLogged) {
+    if (!auth.isAuthenticated) {
       emit('onLogin')
       return
     }
