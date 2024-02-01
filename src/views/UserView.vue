@@ -1,21 +1,20 @@
 <script setup lang="ts">
 import router from '@/router/index'
-import { useRoute } from 'vue-router'
 
-const { params } = useRoute()
-const { id } = params
+const { id } = defineProps(['id'])
 
 function onCreateUser() {
-  router.push({ name: "user-create" })
+  router.push({ name: 'user-create' })
 }
 </script>
 
 <template>
-  <main>
+  <header>
     <h1>Olá {{ id }}!</h1>
     <h1>Oque deseja fazer?</h1>
-
     <button class="create-user-button" @click="onCreateUser">Criar usuário</button>
+  </header>
+  <main>
     <div class="child">
       <router-view></router-view>
     </div>
@@ -23,6 +22,14 @@ function onCreateUser() {
 </template>
 
 <style scoped>
+header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
 main {
   display: flex;
   flex-direction: column;

@@ -10,24 +10,33 @@ const router = createRouter({
 router.addRoute({
   name: 'home',
   path: '/',
+  alias: ['/casa', '/inicial'],
   component: HomeView
+})
+
+router.addRoute({
+  path: '/home',
+  redirect: { name: 'home' }
 })
 
 router.addRoute({
   name: 'users',
   path: '/users/:id',
-  component: import('@/views/UserView.vue'),
-  children: [{
-    path: 'create',
-    name: "user-create",
-    component: import('@/components/user/CreateUser.vue')
-  }]
+  props: true,
+  component: () => import('@/views/UserView.vue'),
+  children: [
+    {
+      path: 'create',
+      name: 'user-create',
+      component: () => import('@/components/user/CreateUser.vue')
+    }
+  ]
 })
 
 router.addRoute({
   name: 'not-found',
   path: '/:pathMatch(.*)*',
-  component: import('@/views/NotFound.vue')
+  component: () => import('@/views/NotFound.vue')
 })
 
 export default router
